@@ -1115,6 +1115,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 440afd1f3bab5dbaf80bc932b14a5354, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreHighlightRange: 50
+  sound: {fileID: 2060969011}
 --- !u!4 &1493545054
 Transform:
   m_ObjectHideFlags: 0
@@ -1600,7 +1602,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveAccel: 2
   maxSpeed: 4
-  jumpAccel: 6
+  jumpAccel: 7
   groundRaycastDistance: 1
   groundLayerMask:
     serializedVersion: 2
@@ -1623,6 +1625,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jump: {fileID: 8300000, guid: fefd4df74a74725ad9f96a0b07176ec4, type: 3}
+  scoreHighlight: {fileID: 8300000, guid: f5ec130cf06c914158072168dbca9d13, type: 3}
 --- !u!82 &2060969012
 AudioSource:
   m_ObjectHideFlags: 0
