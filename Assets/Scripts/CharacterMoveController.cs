@@ -30,6 +30,13 @@ public class CharacterMoveController : MonoBehaviour
     public float scoringRatio;
     private float lastPositionX;
 
+    [Header("Game Over")] 
+    public GameObject gameOverScreen;
+    public float fallPositionY;
+
+    [Header("Camera")] 
+    public CameraMoveController gameCamera;
+
     private void Start()
     {
         rig = GetComponent<Rigidbody2D>();
@@ -62,6 +69,27 @@ public class CharacterMoveController : MonoBehaviour
             score.IncreaseCurrentScore(scoreIncrement);
             lastPositionX += distancePassed;
         }
+
+        // cek game over
+        if (transform.position.y < fallPositionY)
+        {
+            GameOver();
+        }
+    }
+
+    private void GameOver()
+    {
+        // set high score
+        score.FinishScoring();
+        
+        // stop pergerakan kamera
+        gameCamera.enabled = false;
+        
+        // tunjukkan panel game over
+        gameOverScreen.SetActive(true);
+        
+        // disable karakter
+        enabled = false;
     }
 
     private void FixedUpdate()
