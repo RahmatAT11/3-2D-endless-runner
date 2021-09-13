@@ -14,16 +14,19 @@ public class CharacterMoveController : MonoBehaviour
     [Header("Jump")] 
     public float jumpAccel;
 
-    public bool isJumping;
-    public bool isOnGround;
+    private bool isJumping;
+    private bool isOnGround;
 
     [Header("Ground Raycast")] 
     public float groundRaycastDistance;
     public LayerMask groundLayerMask;
 
+    private Animator anim;
+
     private void Start()
     {
         rig = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
     private void Update()
@@ -36,6 +39,9 @@ public class CharacterMoveController : MonoBehaviour
                 isJumping = true;
             }
         }
+        
+        // ubah animasi
+        anim.SetBool("isOnGround", isOnGround);
     }
 
     private void FixedUpdate()
@@ -64,7 +70,7 @@ public class CharacterMoveController : MonoBehaviour
             isJumping = false;
         }
         
-        //vectorVelocity.x = Mathf.Clamp(vectorVelocity.x + moveAccel * Time.deltaTime, 0.0f, maxSpeed);
+        vectorVelocity.x = Mathf.Clamp(vectorVelocity.x + moveAccel * Time.deltaTime, 0.0f, maxSpeed);
 
         rig.velocity = vectorVelocity;
     }
