@@ -23,10 +23,13 @@ public class CharacterMoveController : MonoBehaviour
 
     private Animator anim;
 
+    private CharacterSoundController sound;
+
     private void Start()
     {
         rig = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        sound = GetComponent<CharacterSoundController>();
     }
 
     private void Update()
@@ -37,6 +40,8 @@ public class CharacterMoveController : MonoBehaviour
             if (isOnGround)
             {
                 isJumping = true;
+                
+                sound.PlayJump();
             }
         }
         
