@@ -26,9 +26,15 @@ public class TerrainGeneratorController : MonoBehaviour
     [Header("Force Early Template")] 
     public List<TerrainTemplateController> earlyTerrainTemplates;
 
+    private Dictionary<string, List<GameObject>> pool;
+
     private void Start()
     {
+        // init pool
+        pool = new Dictionary<string, List<GameObject>>();
+        
         spawnedTerrain = new List<GameObject>();
+        
         lastGeneratedPositionX = GetHorizontalPositionStart();
         lastRemovedPositionX = lastGeneratedPositionX - terrainTemplateWidth;
 
@@ -58,6 +64,43 @@ public class TerrainGeneratorController : MonoBehaviour
             lastRemovedPositionX += terrainTemplateWidth;
             RemoveTerrain(lastRemovedPositionX);
         }
+    }
+    
+    // fungsi pool
+    private GameObject GenerateFromPool(GameObject item, Transform parent)
+    {
+        if (pool.ContainsKey(item.name))
+        {
+            // jika item tersedia di pool
+            if (pool[item.name].Count > 0)
+            {
+                GameObject newItemFromPool = pool[item.name][0];
+                pool[item.name].Remove(newItemFromPool);
+                newItemFromPool.SetActive(true);
+                return newItemFromPool;
+            }
+        }
+        else
+        {
+            // jika list item tidak terdefinisi, buat yang baru
+            pool.Add(item.name, new List<GameObject>());
+        }
+        
+        // buat item yang baru jika tidak tersedia di pool
+        GameObject newItem = Instantiate(item, parent);
+        newItem.name = item.name;
+        return newItem;
+    }
+
+    private void ReturnToPool(GameObject item)
+    {
+        if (!pool.ContainsKey(item.name))
+        {
+            Debug.LogError("INVALID POOL ITEM!!");
+        }
+        
+        pool[item.name].Add(item);
+        item.SetActive(false);
     }
 
     private void GenerateTerrain(float posX, TerrainTemplateController forceterrain = null)
